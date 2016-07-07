@@ -68,17 +68,50 @@ class MSBoard(object):
         self.info_map = np.ones((self.board_height, self.board_width),
                                 dtype=np.uint8)*11
 
-    def click_field(self):
+    def click_field(self, move_x, move_y):
         """Click one grid by given position."""
+        field_status = self.info_map[move_x, move_y]
 
-    def flag_field(self):
+        # can only click blank region
+        if field_status == 11:
+            # discover function for 0s
+            tl_idx, br_idx = self.get_region(move_x, move_y)
+
+        self.check_board()
+
+    def get_region(self, move_x, move_y):
+        """Get region around a location."""
+        top_left = (move_y-1, move_x-1)
+        bottom_right = (move_y+1, move_x+1)
+
+        return top_left, bottom_right
+
+    def flag_field(self, move_x, move_y):
         """Flag a grid by given position."""
+        field_status = self.info_map[move_x, move_y]
 
-    def unflag_field(self):
+        # a questioned or undiscovered field
+        if field_status != 9 and (field_status == 10 or field_status == 11):
+            self.info_map[move_y, move_x] = 11
+
+        self.check_board()
+
+    def unflag_field(self, move_x, move_y):
         """Unflag or unquestion a grid by given position."""
+        field_status = self.info_map[move_x, move_y]
 
-    def question_field(self):
+        if field_status == 9 or field_status == 10:
+            self.info_map[move_y, move_x] = 11
+
+    def question_field(self, move_x, move_y):
         """Question a grid by given position."""
+        field_status = self.info_map[move_x, move_y]
+
+        # a questioned or undiscovered field
+        if field_status != 10 and (field_status == 9 or field_status == 11):
+            self.info_map[move_y, move_x] = 10
+
+        self.check_board()
 
     def check_board(self):
         """Check the board status and give feedback."""
