@@ -163,7 +163,11 @@ class MSBoard(object):
         for i in xrange(self.board_width):
             temp_line = str(i)+"\t\t"
             for j in xrange(self.board_height):
-                if self.info_map[i, j] == 11:
+                if self.info_map[i, j] == 9:
+                    temp_line += "@\t"
+                elif self.info_map[i, j] == 10:
+                    temp_line += "?\t"
+                elif self.info_map[i, j] == 11:
                     temp_line += "*\t"
                 elif self.info_map[i, j] == 12:
                     temp_line += "!\t"
