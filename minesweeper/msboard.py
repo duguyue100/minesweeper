@@ -5,6 +5,7 @@ Email : duguyue100@gmail.com
 """
 
 import numpy as np
+from collections import deque
 
 
 class MSBoard(object):
@@ -82,19 +83,39 @@ class MSBoard(object):
             else:
                 # discover the region.
                 self.discover_region(move_x, move_y)
-                # discover function for 0s
-                # something BFS
 
     def discover_region(self, move_x, move_y):
         """Discover region from given location."""
+        field_list = deque([(move_y, move_x)])
+
+        while len(field_list) != 0:
+            field = field_list.popleft()
+
+            (tl_idx, br_idx, region_sum) = self.get_region(field[1], field[0])
+            if region_sum == 0:
+                self.info_map[field[0], field[1]] = 0
+                # get surrounding to queue
+                region_mat = self.info_map[tl_idx[0]:br_idx[0]+1,
+                                           tl_idx[1]:br_idx[1]+1]
+                x_list, y_list = np.nonzero(region_mat == 11)
+
+                for x_idx, y_idx in zip(x_list, y_list):
+                    field_temp = (max(x_idx-1+field[0], 0),
+                                  max(y_idx-1+field[1], 0))
+                    if field_temp not in field_list:
+                        field_list.append(field_temp)
+            elif region_sum > 0:
+                self.info_map[field[0], field[1]] = region_sum
 
     def get_region(self, move_x, move_y):
         """Get region around a location."""
         top_left = (max(move_y-1, 0), max(move_x-1, 0))
         bottom_right = (min(move_y+1, self.board_width),
                         min(move_x+1, self.board_height))
+        region_sum = self.mine_map[top_left[0]:bottom_right[0]+1,
+                                   top_left[1]:bottom_right[1]+1].sum()
 
-        return top_left, bottom_right
+        return top_left, bottom_right, region_sum
 
     def flag_field(self, move_x, move_y):
         """Flag a grid by given position."""
