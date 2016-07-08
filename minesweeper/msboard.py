@@ -39,6 +39,8 @@ class MSBoard(object):
         else:
             self.num_mines = num_mines
 
+        self.init_board()
+
     def init_board(self):
         """Init a valid board by given settings.
 
@@ -53,6 +55,7 @@ class MSBoard(object):
             9 is flagged field.
             10 is questioned field.
             11 is undiscovered field.
+            12 is a mine field.
         """
         self.mine_map = np.zeros((self.board_height, self.board_width),
                                  dtype=np.uint8)
@@ -70,48 +73,61 @@ class MSBoard(object):
 
     def click_field(self, move_x, move_y):
         """Click one grid by given position."""
-        field_status = self.info_map[move_x, move_y]
+        field_status = self.info_map[move_y, move_x]
 
         # can only click blank region
         if field_status == 11:
-            # discover function for 0s
-            tl_idx, br_idx = self.get_region(move_x, move_y)
+            if self.mine_map[move_y, move_x] == 1:
+                self.info_map[move_y, move_x] = 12
+            else:
+                # discover the region.
+                self.discover_region(move_x, move_y)
+                # discover function for 0s
+                # something BFS
 
-        self.check_board()
+    def discover_region(self, move_x, move_y):
+        """Discover region from given location."""
 
     def get_region(self, move_x, move_y):
         """Get region around a location."""
-        top_left = (move_y-1, move_x-1)
-        bottom_right = (move_y+1, move_x+1)
+        top_left = (max(move_y-1, 0), max(move_x-1, 0))
+        bottom_right = (min(move_y+1, self.board_width),
+                        min(move_x+1, self.board_height))
 
         return top_left, bottom_right
 
     def flag_field(self, move_x, move_y):
         """Flag a grid by given position."""
-        field_status = self.info_map[move_x, move_y]
+        field_status = self.info_map[move_y, move_x]
 
         # a questioned or undiscovered field
         if field_status != 9 and (field_status == 10 or field_status == 11):
-            self.info_map[move_y, move_x] = 11
-
-        self.check_board()
+            self.info_map[move_y, move_x] = 9
 
     def unflag_field(self, move_x, move_y):
         """Unflag or unquestion a grid by given position."""
-        field_status = self.info_map[move_x, move_y]
+        field_status = self.info_map[move_y, move_x]
 
         if field_status == 9 or field_status == 10:
             self.info_map[move_y, move_x] = 11
 
     def question_field(self, move_x, move_y):
         """Question a grid by given position."""
-        field_status = self.info_map[move_x, move_y]
+        field_status = self.info_map[move_y, move_x]
 
         # a questioned or undiscovered field
         if field_status != 10 and (field_status == 9 or field_status == 11):
             self.info_map[move_y, move_x] = 10
 
-        self.check_board()
-
     def check_board(self):
         """Check the board status and give feedback."""
+        num_mines = np.sum(self.info_map == 12)
+        num_undiscovered = np.sum(self.info_map == 11)
+        num_questioned = np.sum(self.info_map == 10)
+
+        if num_mines > 0:
+            return 0
+        elif num_undiscovered > 0 or num_questioned > 0:
+            return 2
+        elif np.array_equal(self.info_map == 9, self.mine_map):
+            return 1
