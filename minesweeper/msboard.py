@@ -4,6 +4,7 @@ Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
+from __future__ import print_function
 import numpy as np
 from collections import deque
 
@@ -152,3 +153,20 @@ class MSBoard(object):
             return 2
         elif np.array_equal(self.info_map == 9, self.mine_map):
             return 1
+
+    def print_board(self):
+        """Print board in structural way."""
+        head_line = "s\t\t"
+        for i in xrange(self.board_width):
+            head_line += str(i)+"\t"
+        print(head_line.expandtabs(4)+"\n\n")
+        for i in xrange(self.board_width):
+            temp_line = str(i)+"\t\t"
+            for j in xrange(self.board_height):
+                if self.info_map[i, j] == 11:
+                    temp_line += "*\t"
+                elif self.info_map[i, j] == 12:
+                    temp_line += "!\t"
+                else:
+                    temp_line += str(self.info_map[i, j])+"\t"
+            print(temp_line.expandtabs(4))
