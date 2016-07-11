@@ -1,0 +1,43 @@
+sudo: false
+cache:
+  directories:
+    - $HOME/download
+    - $HOME/.cache/pip
+
+language: python
+python:
+    - "2.7"
+    - "3.5"
+
+before_install:
+    - mkdir -p download
+    - cd download
+    - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b -p $HOME/miniconda
+    - cd ..
+    - export PATH=/home/travis/miniconda/bin:$PATH
+    - conda info -a
+    - conda update --yes conda
+    - conda install --yes pip
+    - conda install --yes pillow
+    - conda install --yes nose
+
+install:
+    - pip install -r requirements.txt
+    - python setup.py install
+    - conda list
+
+script:
+    - python --version
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: false
