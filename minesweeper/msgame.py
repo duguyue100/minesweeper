@@ -168,15 +168,15 @@ class MSGame(object):
         # check the status, see if end the game
         if self.board.check_board() == 0:
             self.game_status = 0  # game loses
-            self.print_board()
+            # self.print_board()
             self.end_game()
         elif self.board.check_board() == 1:
             self.game_status = 1  # game wins
-            self.print_board()
+            # self.print_board()
             self.end_game()
         elif self.board.check_board() == 2:
             self.game_status = 2  # game continues
-            self.print_board()
+            # self.print_board()
 
     def print_board(self):
         """Print board."""
@@ -185,6 +185,14 @@ class MSGame(object):
     def get_board(self):
         """Get board message."""
         return self.board.board_msg()
+
+    def get_info_map(self):
+        """Get info map."""
+        return self.board.info_map
+
+    def get_mine_map(self):
+        """Get mine map."""
+        return self.board.mine_map
 
     def end_game(self):
         """Settle the end game.
