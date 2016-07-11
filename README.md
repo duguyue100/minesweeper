@@ -16,12 +16,12 @@ This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 ## Todo List
 
 +   [x] Basic structure setup
-+   [ ] update rules for `msboard` (click)
-+   [ ] update rules for `msboard` (flag)
-+   [ ] update rules for `msboard` (unflag)
-+   [ ] update rules for `msboard` (question)
++   [x] update rules for `msboard` (click)
++   [x] update rules for `msboard` (flag)
++   [x] update rules for `msboard` (unflag)
++   [x] update rules for `msboard` (question)
 +   [ ] UDP interface for the game
-+   [ ] console interface for the game
++   [x] console interface for the game
 +   [ ] GUI interface for the game
 
 ## Contacts

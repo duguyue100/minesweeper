@@ -101,8 +101,8 @@ class MSBoard(object):
                 x_list, y_list = np.nonzero(region_mat == 11)
 
                 for x_idx, y_idx in zip(x_list, y_list):
-                    field_temp = (max(x_idx-1+field[0], 0),
-                                  max(y_idx-1+field[1], 0))
+                    field_temp = (x_idx+max(field[0]-1, 0),
+                                  y_idx+max(field[1]-1, 0))
                     if field_temp not in field_list:
                         field_list.append(field_temp)
             elif region_sum > 0:
@@ -149,10 +149,10 @@ class MSBoard(object):
 
         if num_mines > 0:
             return 0
-        elif num_undiscovered > 0 or num_questioned > 0:
-            return 2
         elif np.array_equal(self.info_map == 9, self.mine_map):
             return 1
+        elif num_undiscovered > 0 or num_questioned > 0:
+            return 2
 
     def print_board(self):
         """Print board in structural way."""
