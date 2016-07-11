@@ -36,8 +36,7 @@ setup(
     author_email=about["__author_email__"],
 
     url=about["__url__"],
-    download_url=about["__download_url__"],
-
+    
     packages=["minesweeper"],
 
     classifiers=list(filter(None, classifiers.split('\n'))),
