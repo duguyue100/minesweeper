@@ -1,5 +1,7 @@
 # MineSweeper
 
+[![Build Status](https://travis-ci.org/duguyue100/minesweeper.svg?branch=master)](https://travis-ci.org/duguyue100/minesweeper)
+
 A python Minesweeper with interfaces for Reinforcement Learning.
 
 This is a simple game I wrote for learning _Deep Reinforcement Learning_.
