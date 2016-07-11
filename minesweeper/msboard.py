@@ -156,10 +156,15 @@ class MSBoard(object):
 
     def print_board(self):
         """Print board in structural way."""
-        head_line = "s\t\t"
+        print(self.board_msg())
+
+    def board_msg(self):
+        """Structure a board as in print_board."""
+        board_str = "s\t\t"
         for i in xrange(self.board_width):
-            head_line += str(i)+"\t"
-        print(head_line.expandtabs(4)+"\n\n")
+            board_str += str(i)+"\t"
+        board_str = board_str.expandtabs(4)+"\n\n"
+
         for i in xrange(self.board_width):
             temp_line = str(i)+"\t\t"
             for j in xrange(self.board_height):
@@ -173,4 +178,6 @@ class MSBoard(object):
                     temp_line += "!\t"
                 else:
                     temp_line += str(self.info_map[i, j])+"\t"
-            print(temp_line.expandtabs(4))
+            board_str += temp_line.expandtabs(4)+"\n"
+
+        return board_str
