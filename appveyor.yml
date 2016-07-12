@@ -21,6 +21,7 @@ install:
     - conda install --yes pip
     - conda install --yes pillow
     - conda install --yes pyqt
+    - conda install --yes numpy
     - conda install --yes nose
     - pip install -r requirements.txt
     - python.exe setup.py install

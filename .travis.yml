@@ -26,6 +26,7 @@ before_install:
     - conda install --yes pip
     - conda install --yes pillow
     - conda install --yes pyqt
+    - conda install --yes numpy
     - conda install --yes nose
 
 install:
