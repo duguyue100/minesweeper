@@ -94,7 +94,7 @@ class MSBoard(object):
 
             (tl_idx, br_idx, region_sum) = self.get_region(field[1], field[0])
             if region_sum == 0:
-                self.info_map[field[0], field[1]] = 0
+                self.info_map[field[0], field[1]] = region_sum
                 # get surrounding to queue
                 region_mat = self.info_map[tl_idx[0]:br_idx[0]+1,
                                            tl_idx[1]:br_idx[1]+1]
@@ -111,8 +111,8 @@ class MSBoard(object):
     def get_region(self, move_x, move_y):
         """Get region around a location."""
         top_left = (max(move_y-1, 0), max(move_x-1, 0))
-        bottom_right = (min(move_y+1, self.board_width-1),
-                        min(move_x+1, self.board_height-1))
+        bottom_right = (min(move_y+1, self.board_height-1),
+                        min(move_x+1, self.board_width-1))
         region_sum = self.mine_map[top_left[0]:bottom_right[0]+1,
                                    top_left[1]:bottom_right[1]+1].sum()
 
