@@ -41,7 +41,7 @@ pip install git+git://github.com/duguyue100/minesweeper.git \
 +   [x] console interface for the game
 +   [x] GUI interface for the game
 +   [x] Complete reset button and end game condition
-+   [ ] Control GUI interface through remote commands (another thread?)
++   [x] Control GUI interface through remote commands (another thread?)
 
 ## Screen Shot
 
