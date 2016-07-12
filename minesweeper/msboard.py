@@ -165,9 +165,9 @@ class MSBoard(object):
             board_str += str(i)+"\t"
         board_str = board_str.expandtabs(4)+"\n\n"
 
-        for i in xrange(self.board_width):
+        for i in xrange(self.board_height):
             temp_line = str(i)+"\t\t"
-            for j in xrange(self.board_height):
+            for j in xrange(self.board_width):
                 if self.info_map[i, j] == 9:
                     temp_line += "@\t"
                 elif self.info_map[i, j] == 10:

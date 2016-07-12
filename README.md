@@ -47,9 +47,67 @@ pip install git+git://github.com/duguyue100/minesweeper.git \
 
 ![Game Shot](minesweeper/imgs/screen_shot.png)
 
+## The GUI Player
+
+```bash
+usage: ms-gui.py [-h] [--board-width BOARD_WIDTH]
+                 [--board-height BOARD_HEIGHT] [--num-mines NUM_MINES]
+                 [--port PORT] [--ip-add IP_ADD]
+
+Mine Sweeper Minesweeper with interfaces for Reinforcement Learning by Yuhuang
+Hu
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --board-width BOARD_WIDTH
+                        width of the board.
+  --board-height BOARD_HEIGHT
+                        height of the board.
+  --num-mines NUM_MINES
+                        number of mines.
+  --port PORT           The port for TCP connection.
+  --ip-add IP_ADD       The IP address for TCP connection.
+```
+
+The default value of the game is
+
+```python
+board_width = 20
+board_height = 20
+num_mines = 40
+port = 5678
+ip_add = "127.0.0.1"
+```
+
 ## Control The Game
 
-TBD
+As shown in [test-board.py](scripts/test-board.py), you can control the game
+through the APIs. This provides a way of accessing and generating large
+number of games by designing your own flow.
+
+Alternatively, you can also access and control a game through TCP connections.
+The examples is given in [test-tcp-com.py](scripts/test-tcp-com.py).
+The TCP connection is initiate by given IP address and port number.
+You can easily connect the connection using `netcat` (for Mac OS X, `nc`), e.g.
+
+```bash
+nc 127.0.0.1 5678å
+```
+
+Once you connected, type `help` for viewing command line.
+
+```bash
+Welcome to Mine Sweeper!
+You have 5 types of moves to use:
+(1) Click	: click: X, Y
+(2) Flag	: flag: X, Y
+(3) Question	: question: X, Y
+(4) Unflag	: unflag: X, Y
+(5) Print board: print
+```
+
+Of you can still use other programs for controlling the game.
+Please check related APIs from [msgame.py](minesweeper/msgame.py)
 
 ## Contacts
 
