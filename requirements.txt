@@ -1,2 +1,2 @@
 numpy
-PyQt4
+pyqt

@@ -38,6 +38,7 @@ setup(
     url=about["__url__"],
 
     packages=["minesweeper"],
+    package_data={"minesweeper": ["imgs/*.*"]},
     scripts=["scripts/ms-gui.py"],
 
     classifiers=list(filter(None, classifiers.split('\n'))),
