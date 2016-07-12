@@ -23,8 +23,11 @@ This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 +   [x] TCP interface for the game
 +   [x] console interface for the game
 +   [x] GUI interface for the game
-+   [ ] Debug GUI interface and add ability of right click
 +   [ ] Control GUI interface through remote commands (another thread?)
+
+## Control The Game
+
+TBD
 
 ## Contacts
 
