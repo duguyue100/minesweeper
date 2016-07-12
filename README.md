@@ -6,6 +6,8 @@ A python Minesweeper with interfaces for Reinforcement Learning.
 
 This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 
+## How to Install
+
 ## Objectives
 
 +   A command line mine sweeper game.
@@ -25,6 +27,10 @@ This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 +   [x] GUI interface for the game
 +   [ ] Complete reset button and end game condition
 +   [ ] Control GUI interface through remote commands (another thread?)
+
+## Screen Shot
+
+![Game Shot](minesweeper/imgs/screen_shot.png)
 
 ## Control The Game
 
