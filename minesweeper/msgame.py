@@ -55,7 +55,7 @@ class MSGame(object):
 
         self.init_new_game()
 
-    def init_new_game(self):
+    def init_new_game(self, with_tcp=True):
         """Init a new game.
 
         Parameters
@@ -74,14 +74,15 @@ class MSGame(object):
         self.num_moves = 0
         self.move_history = []
 
-        # init TCP communication.
-        self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.tcp_socket.bind((self.TCP_IP, self.TCP_PORT))
-        self.tcp_socket.listen(1)
+        if with_tcp is True:
+            # init TCP communication.
+            self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.tcp_socket.bind((self.TCP_IP, self.TCP_PORT))
+            self.tcp_socket.listen(1)
 
     def reset_game(self):
         """Reset game."""
-        self.init_new_game()
+        self.init_new_game(with_tcp=False)
 
     def create_board(self, board_width, board_height, num_mines):
         """Create a board by given parameters.
@@ -134,6 +135,8 @@ class MSGame(object):
         move_des["move_x"] = move_x
         move_des["move_y"] = move_y
         self.num_moves += 1
+
+        return move_des
 
     def play_move(self, move_type, move_x, move_y):
         """Updat board by a given move.
