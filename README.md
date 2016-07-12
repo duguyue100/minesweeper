@@ -1,6 +1,9 @@
 # MineSweeper
 
 [![Build Status](https://travis-ci.org/duguyue100/minesweeper.svg?branch=master)](https://travis-ci.org/duguyue100/minesweeper)
+[![Build status](https://ci.appveyor.com/api/projects/status/p8xuedefg61yia02?svg=true)](https://ci.appveyor.com/project/duguyue100/minesweeper)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ad343ff420a42ba9130c822fa154557)](https://www.codacy.com/app/duguyue100/minesweeper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=duguyue100/minesweeper&amp;utm_campaign=Badge_Grade)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://raw.githubusercontent.com/duguyue100/minesweeper/master/LICENSE)
 
 A python Minesweeper with interfaces for Reinforcement Learning.
 
