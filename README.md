@@ -52,6 +52,12 @@ ms-gui.py # yeah, with .py, otherwise Windows CMD may not be able to find it!
 +   [x] GUI interface for the game
 +   [x] Complete reset button and end game condition
 +   [x] Control GUI interface through remote commands (another thread?)
++   [ ] Write Tests, collect user feedback (if possible)
++   [ ] Write more TCP connection related functions (e.g. dump array)
++   [ ] Design, train and test a DQN controller (learning on the way :)).
++   [ ] Demo for the trained controller.
++   [ ] Handling arbitrary size of board.
++   [ ] Play game only with pixel inputs?
 
 ## Screen Shot
 
