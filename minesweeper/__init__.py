@@ -8,4 +8,5 @@ import os
 from minesweeper.msgame import MSGame
 from minesweeper.msboard import MSBoard
 
-package_path = os.path.dirname(os.path.abspath(__file__))
+PACKAGE_PATH = os.path.dirname(os.path.abspath(__file__))
+PACKAGE_IMGS_PATH = os.path.join(PACKAGE_PATH, "imgs")

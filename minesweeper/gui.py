@@ -4,14 +4,62 @@ Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
+from os.path import join
 from PyQt4 import QtGui, QtCore
+
+import minesweeper
+
+FLAG_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "flag.png")
+QUESTION_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "question.png")
+BOOM_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "boom.png")
+EMPTY_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "blue_circle.png")
+NUMBER_PATHS = [join(minesweeper.PACKAGE_IMGS_PATH, "zero.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "one.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "two.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "three.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "four.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "five.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "six.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "seven.png"),
+                join(minesweeper.PACKAGE_IMGS_PATH, "eight.png")]
+WIN_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "win.png")
+LOSE_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "lose.png")
+CONTINUE_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "continue.png")
+
+
+class ControlWidget(QtGui.QWidget):
+    """Control widget for showing state of the game."""
+
+    def __init__(self):
+        """Init control widget."""
+        super(ControlWidget, self).__init__()
+
+        self.init_ui()
+
+    def init_ui(self):
+        """setup control widget UI."""
+        self.control_layout = QtGui.QHBoxLayout()
+        self.setLayout(self.control_layout)
+        self.reset_button = QtGui.QPushButton()
+        self.reset_button.setFixedSize(40, 40)
+        self.reset_button.setIcon(QtGui.QIcon(WIN_PATH))
+        self.game_timer = QtGui.QLCDNumber()
+        self.game_timer.setStyleSheet("QLCDNumber {color: red;}")
+        self.game_timer.setFixedWidth(100)
+        self.move_counter = QtGui.QLCDNumber()
+        self.move_counter.setStyleSheet("QLCDNumber {color: red;}")
+        self.move_counter.setFixedWidth(100)
+
+        self.control_layout.addWidget(self.game_timer)
+        self.control_layout.addWidget(self.reset_button)
+        self.control_layout.addWidget(self.move_counter)
 
 
 class GameWidget(QtGui.QWidget):
     """Setup Game Interface."""
 
     def __init__(self, ms_game):
-        """Init the field."""
+        """Init the game."""
         super(GameWidget, self).__init__()
 
         self.ms_game = ms_game
@@ -53,19 +101,22 @@ class GameWidget(QtGui.QWidget):
 class FieldWidget(QtGui.QLabel):
     """A customized Field Widget."""
 
-    def __init__(self):
+    def __init__(self, field_width=25, field_height=25):
         """Init the field."""
         super(FieldWidget, self).__init__()
+
+        self.field_width = field_width
+        self.field_height = field_height
 
         self.init_ui()
 
     def init_ui(self):
         """init the ui."""
-        self.setFixedSize(25, 25)
-        self.setText("  ")
-        self.setStyleSheet("QLabel {background-color: blue;" +
-                           "color: red;" +
-                           "qproperty-alignment: AlignCenter;}")
+        self.id = 11
+        self.setFixedSize(self.field_width, self.field_height)
+        self.setPixmap(QtGui.QPixmap(EMPTY_PATH).scaled(
+                self.field_width*3, self.field_height*3))
+        self.setStyleSheet("QLabel {background-color: blue;}")
 
     def mousePressEvent(self, event):
         """Define mouse press event."""
@@ -82,15 +133,15 @@ class FieldWidget(QtGui.QLabel):
             p_layout = p_wg.layout()
             idx = p_layout.indexOf(self)
             loc = p_layout.getItemPosition(idx)[:2]
-            if self.text() == "@":
+            if self.id == 9:
                 self.info_label(10)
                 p_wg.ms_game.play_move("question", loc[1], loc[0])
                 p_wg.update_grid()
-            elif self.text() == "  ":
+            elif self.id == 11:
                 self.info_label(9)
                 p_wg.ms_game.play_move("flag", loc[1], loc[0])
                 p_wg.update_grid()
-            elif self.text() == "?":
+            elif self.id == 10:
                 self.info_label(11)
                 p_wg.ms_game.play_move("unflag", loc[1], loc[0])
                 p_wg.update_grid()
@@ -106,28 +157,30 @@ class FieldWidget(QtGui.QLabel):
             12 is a mine field.
         """
         if indicator in xrange(1, 9):
-            self.setText(str(indicator))
-            self.setStyleSheet("QLabel {background-color: green;" +
-                               "color: red;" +
-                               "qproperty-alignment: AlignCenter;}")
+            self.id = indicator
+            self.setPixmap(QtGui.QPixmap(NUMBER_PATHS[indicator]).scaled(
+                    self.field_width, self.field_height))
         elif indicator == 0:
-            self.setText(" ")
-            self.setStyleSheet("QLabel {background-color: green;" +
-                               "color: red;" +
-                               "qproperty-alignment: AlignCenter;}")
+            self.id == 0
+            self.setPixmap(QtGui.QPixmap(NUMBER_PATHS[0]).scaled(
+                    self.field_width, self.field_height))
         elif indicator == 12:
-            self.setText("!")
-            self.setStyleSheet("QLabel {background-color: black;" +
-                               "color: red;" +
-                               "qproperty-alignment: AlignCenter;}")
+            self.id = 12
+            self.setPixmap(QtGui.QPixmap(BOOM_PATH).scaled(self.field_width,
+                                                           self.field_height))
+            self.setStyleSheet("QLabel {background-color: black;}")
         elif indicator == 9:
-            self.setText("@")
-            self.setStyleSheet("QLabel {background-color: #A3C1DA;" +
-                               "color: purple;}")
+            self.id = 9
+            self.setPixmap(QtGui.QPixmap(FLAG_PATH).scaled(self.field_width,
+                                                           self.field_height))
+            self.setStyleSheet("QLabel {background-color: #A3C1DA;}")
         elif indicator == 10:
-            self.setText("?")
-            self.setStyleSheet("QLabel {background-color: yellow;" +
-                               "color: purple;}")
+            self.id = 10
+            self.setPixmap(QtGui.QPixmap(QUESTION_PATH).scaled(
+                    self.field_width, self.field_height))
+            self.setStyleSheet("QLabel {background-color: yellow;}")
         elif indicator == 11:
-            self.setText("  ")
+            self.id = 11
+            self.setPixmap(QtGui.QPixmap(EMPTY_PATH).scaled(
+                    self.field_width*3, self.field_height*3))
             self.setStyleSheet('QLabel {background-color: blue;}')

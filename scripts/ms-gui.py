@@ -25,12 +25,7 @@ ms_window.setWindowTitle("Mine Sweeper")
 ms_layout = QtGui.QGridLayout()
 ms_window.setLayout(ms_layout)
 
-fun_wg = QtGui.QWidget()
-fun_layout = QtGui.QHBoxLayout()
-fun_wg.setLayout(fun_layout)
-reset_button = QtGui.QPushButton("Reset")
-fun_layout.addWidget(reset_button)
-
+fun_wg = gui.ControlWidget()
 grid_wg = gui.GameWidget(ms_game)
 
 ms_layout.addWidget(fun_wg, 0, 0)
