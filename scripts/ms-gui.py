@@ -26,7 +26,14 @@ ms_layout = QtGui.QGridLayout()
 ms_window.setLayout(ms_layout)
 
 fun_wg = gui.ControlWidget()
-grid_wg = gui.GameWidget(ms_game)
+grid_wg = gui.GameWidget(ms_game, fun_wg)
+
+
+def reset_button_state():
+    """Reset button state."""
+    grid_wg.reset_game()
+
+fun_wg.reset_button.clicked.connect(reset_button_state)
 
 ms_layout.addWidget(fun_wg, 0, 0)
 ms_layout.addWidget(grid_wg, 1, 0)
