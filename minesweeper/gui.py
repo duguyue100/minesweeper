@@ -6,9 +6,6 @@ Email : duguyue100@gmail.com
 
 from PyQt4 import QtGui, QtCore
 
-FIELD_LOCATION = None
-CLICKED_FIELD = None
-
 
 class GameWidget(QtGui.QWidget):
     """Setup Game Interface."""

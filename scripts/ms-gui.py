@@ -11,8 +11,8 @@ from PyQt4 import QtGui
 from minesweeper import MSGame, gui
 
 board_width = 20
-board_height = 10
-num_mines = 10
+board_height = 20
+num_mines = 40
 ms_game = MSGame(board_width, board_height, num_mines,
                  port=5678, ip_add="127.0.0.1")
 
