@@ -23,6 +23,13 @@ pip install git+git://github.com/duguyue100/minesweeper.git \
 -r https://github.com/duguyue100/minesweeper/blob/master/requirements.txt
 ```
 
+Once you installed, you can start the Mine Sweeper GUI by typing following
+under terminal
+
+```bash
+ms-gui.py # yeah, with .py, otherwise Windows CMD may not be able to find it!
+```
+
 ## Objectives
 
 +   A command line mine sweeper game.
