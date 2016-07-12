@@ -36,8 +36,9 @@ setup(
     author_email=about["__author_email__"],
 
     url=about["__url__"],
-    
+
     packages=["minesweeper"],
+    scripts=["scripts/ms-gui.py"],
 
     classifiers=list(filter(None, classifiers.split('\n'))),
     description="A python Minesweeper with interfaces for "

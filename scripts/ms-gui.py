@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """GUI for Mine Sweeper.
 
 Author: Yuhuang Hu
