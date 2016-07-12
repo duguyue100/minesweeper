@@ -58,11 +58,12 @@ class ControlWidget(QtGui.QWidget):
 class GameWidget(QtGui.QWidget):
     """Setup Game Interface."""
 
-    def __init__(self, ms_game):
+    def __init__(self, ms_game, ctrl_wg):
         """Init the game."""
         super(GameWidget, self).__init__()
 
         self.ms_game = ms_game
+        self.ctrl_wg = ctrl_wg
         self.init_ui()
 
     def init_ui(self):
@@ -70,6 +71,10 @@ class GameWidget(QtGui.QWidget):
         board_width = self.ms_game.board_width
         board_height = self.ms_game.board_height
         self.create_grid(board_width, board_height)
+        self.time = 0
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.timing_game)
+        self.timer.start(1000)
 
     def create_grid(self, grid_width, grid_height):
         """Create a grid layout with stacked widgets.
@@ -90,12 +95,33 @@ class GameWidget(QtGui.QWidget):
                 self.grid_wgs[(i, j)] = FieldWidget()
                 self.grid_layout.addWidget(self.grid_wgs[(i, j)], i, j)
 
+    def timing_game(self):
+        """Timing game."""
+        self.ctrl_wg.game_timer.display(self.time)
+        self.time += 1
+
+    def reset_game(self):
+        """Reset game board."""
+        self.ms_game.reset_game()
+        self.update_grid()
+        self.time = 0
+        self.timer.start(1000)
+
     def update_grid(self):
         """update grid according to info map."""
         info_map = self.ms_game.get_info_map()
         for i in xrange(self.ms_game.board_height):
             for j in xrange(self.ms_game.board_width):
                 self.grid_wgs[(i, j)].info_label(info_map[i, j])
+
+        self.ctrl_wg.move_counter.display(self.ms_game.num_moves)
+        if self.ms_game.game_status == 2:
+            self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(CONTINUE_PATH))
+        elif self.ms_game.game_status == 1:
+            self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(WIN_PATH))
+        elif self.ms_game.game_status == 0:
+            self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(LOSE_PATH))
+            self.timer.stop()
 
 
 class FieldWidget(QtGui.QLabel):
@@ -126,25 +152,27 @@ class FieldWidget(QtGui.QLabel):
             p_layout = p_wg.layout()
             idx = p_layout.indexOf(self)
             loc = p_layout.getItemPosition(idx)[:2]
-            p_wg.ms_game.play_move("click", loc[1], loc[0])
-            p_wg.update_grid()
+            if p_wg.ms_game.game_status == 2:
+                p_wg.ms_game.play_move("click", loc[1], loc[0])
+                p_wg.update_grid()
         elif event.button() == QtCore.Qt.RightButton:
             p_wg = self.parent()
             p_layout = p_wg.layout()
             idx = p_layout.indexOf(self)
             loc = p_layout.getItemPosition(idx)[:2]
-            if self.id == 9:
-                self.info_label(10)
-                p_wg.ms_game.play_move("question", loc[1], loc[0])
-                p_wg.update_grid()
-            elif self.id == 11:
-                self.info_label(9)
-                p_wg.ms_game.play_move("flag", loc[1], loc[0])
-                p_wg.update_grid()
-            elif self.id == 10:
-                self.info_label(11)
-                p_wg.ms_game.play_move("unflag", loc[1], loc[0])
-                p_wg.update_grid()
+            if p_wg.ms_game.game_status == 2:
+                if self.id == 9:
+                    self.info_label(10)
+                    p_wg.ms_game.play_move("question", loc[1], loc[0])
+                    p_wg.update_grid()
+                elif self.id == 11:
+                    self.info_label(9)
+                    p_wg.ms_game.play_move("flag", loc[1], loc[0])
+                    p_wg.update_grid()
+                elif self.id == 10:
+                    self.info_label(11)
+                    p_wg.ms_game.play_move("unflag", loc[1], loc[0])
+                    p_wg.update_grid()
 
     def info_label(self, indicator):
         """Set info label by given settings.
