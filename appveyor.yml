@@ -1,0 +1,32 @@
+environment:
+    matrix:
+        - PYTHON_VERSION: "2.7"
+        - PYTHON_VERSION: "3.5"
+
+platform:
+    - x86
+    - x64
+
+matrix:
+    fast_finish: true
+
+install:
+    - set PATH=C:\Miniconda\Scripts
+    - ps: If ($env:Platform -Match "x64") {$env:PATH="C:\Miniconda-x64\Scripts"}
+    - conda info -a
+    - conda config --set always_yes yes --set changeps1 no
+    - conda update --yes conda
+    - conda create -q --name python%PYTHON_VERSION% python=%PYTHON_VERSION%
+    - activate python%PYTHON_VERSION%
+    - conda install --yes pip
+    - conda install --yes pillow
+    - conda install --yes pyqt
+    - conda install --yes nose
+    - pip install -r requirements.txt
+    - python.exe setup.py install
+    - conda list
+
+build: off
+
+test_script:
+    - nosetests tests/
