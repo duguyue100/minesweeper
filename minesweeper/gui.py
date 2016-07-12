@@ -10,7 +10,7 @@ FIELD_LOCATION = None
 CLICKED_FIELD = None
 
 
-class GameWidget(QtGui.QTabWidget):
+class GameWidget(QtGui.QWidget):
     """Setup Game Interface."""
 
     def __init__(self, ms_game):
@@ -24,9 +24,26 @@ class GameWidget(QtGui.QTabWidget):
         """Init game interface."""
         board_width = self.ms_game.board_width
         board_height = self.ms_game.board_height
-        self.grid_layout, self.grid_wgs = create_grid(board_width,
-                                                      board_height)
+        self.create_grid(board_width, board_height)
+
+    def create_grid(self, grid_width, grid_height):
+        """Create a grid layout with stacked widgets.
+
+        Parameters
+        ----------
+        grid_width : int
+            the width of the grid
+        grid_height : int
+            the height of the grid
+        """
+        self.grid_layout = QtGui.QGridLayout()
         self.setLayout(self.grid_layout)
+        self.grid_layout.setSpacing(1)
+        self.grid_wgs = {}
+        for i in xrange(grid_height):
+            for j in xrange(grid_width):
+                self.grid_wgs[(i, j)] = FieldWidget()
+                self.grid_layout.addWidget(self.grid_wgs[(i, j)], i, j)
 
     def update_grid(self):
         """update grid according to info map."""
@@ -117,31 +134,3 @@ class FieldWidget(QtGui.QLabel):
         elif indicator == 11:
             self.setText("  ")
             self.setStyleSheet('QLabel {background-color: blue;}')
-
-
-def create_grid(grid_width, grid_height):
-    """Create a grid layout with stacked widgets.
-
-    Parameters
-    ----------
-    grid_width : int
-        the width of the grid
-    grid_height : int
-        the height of the grid
-
-    Returns
-    -------
-    layout : QtGui.QGridLayout
-        a QtGui grid layout.
-    grid_wgs : Dictionary
-        collection of QStackedWidget
-    """
-    layout = QtGui.QGridLayout()
-    layout.setSpacing(1)
-    grid_wgs = {}
-    for i in xrange(grid_height):
-        for j in xrange(grid_width):
-            grid_wgs[(i, j)] = FieldWidget()
-            layout.addWidget(grid_wgs[(i, j)], i, j)
-
-    return layout, grid_wgs
