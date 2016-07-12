@@ -27,6 +27,3 @@ install:
     - conda list
 
 build: off
-
-test_script:
-    - nosetests tests/
