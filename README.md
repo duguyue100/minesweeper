@@ -8,6 +8,21 @@ This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 
 ## How to Install
 
+In order to install this package, you need to have at least
+
++   `numpy`
++   `pyqt`
+
+installed. If you don't want to bother with details of packages installation,
+you can use [Anaconda](https://anaconda.org/) as your Python distribution.
+
+And then install the package by
+
+```bash
+pip install git+ git@github.com:duguyue100/minesweeper.git \
+-r https://github.com/duguyue100/minesweeper/blob/master/requirements.txt
+```
+
 ## Objectives
 
 +   A command line mine sweeper game.
@@ -25,7 +40,7 @@ This is a simple game I wrote for learning _Deep Reinforcement Learning_.
 +   [x] TCP interface for the game
 +   [x] console interface for the game
 +   [x] GUI interface for the game
-+   [ ] Complete reset button and end game condition
++   [x] Complete reset button and end game condition
 +   [ ] Control GUI interface through remote commands (another thread?)
 
 ## Screen Shot
