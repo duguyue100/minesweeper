@@ -19,7 +19,7 @@ you can use [Anaconda](https://anaconda.org/) as your Python distribution.
 And then install the package by
 
 ```bash
-pip install git+ git@github.com:duguyue100/minesweeper.git \
+pip install git+git://github.com/duguyue100/minesweeper.git \
 -r https://github.com/duguyue100/minesweeper/blob/master/requirements.txt
 ```
 
