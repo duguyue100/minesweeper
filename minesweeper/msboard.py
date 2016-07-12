@@ -33,7 +33,7 @@ class MSBoard(object):
         if (board_height <= 0):
             raise ValueError("the board height cannot be non-positive!")
         else:
-            self.board_height = board_width
+            self.board_height = board_height
 
         if (num_mines >= (board_width*board_height)):
             raise ValueError("The number of mines cannot be larger than "
