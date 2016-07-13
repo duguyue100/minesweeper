@@ -13,4 +13,4 @@ __author__ = "Yuhuang Hu"
 __author_email__ = "duguyue100@gmail.com"
 __url__ = "https://github.com/duguyue100/minesweeper"
 __download_url__ = "https://github.com/duguyue100/" + \
-                   "minesweeper/tarball/0.1.0"
+                   "minesweeper/tarball/0.1.1"
