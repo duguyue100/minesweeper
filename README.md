@@ -120,7 +120,7 @@ The TCP connection is initiate by given IP address and port number.
 You can easily connect the connection using `netcat` (for Mac OS X, `nc`), e.g.
 
 ```bash
-nc 127.0.0.1 5678å
+nc 127.0.0.1 5678
 ```
 
 Once you connected, type `help` for viewing command line.
