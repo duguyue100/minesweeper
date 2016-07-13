@@ -42,6 +42,6 @@ setup(
     scripts=["scripts/ms-gui.py"],
 
     classifiers=list(filter(None, classifiers.split('\n'))),
-    description="A python Minesweeper with interfaces for "
-                "Reinforcement Learning."
+    description="A python Minesweeper with interfaces for \
+                 Reinforcement Learning."
 )
