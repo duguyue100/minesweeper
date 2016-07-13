@@ -22,7 +22,7 @@ License :: OSI Approved :: MIT License
 """
 
 try:
-    from simretina import __about__
+    from minesweeper import __about__
     about = __about__.__dict__
 except ImportError:
     about = dict()
