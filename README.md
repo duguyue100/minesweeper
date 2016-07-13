@@ -24,6 +24,16 @@ you can use [Anaconda](https://anaconda.org/) as your Python distribution.
 
 And then install the package by
 
+__From PyPI (the latest stable version)__
+
+```bash
+pip install minesweeper
+```
+
+or
+
+__From GitHub (the bleeding edge version)__
+
 ```bash
 pip install git+git://github.com/duguyue100/minesweeper.git \
 -r https://github.com/duguyue100/minesweeper/blob/master/requirements.txt
