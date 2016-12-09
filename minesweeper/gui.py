@@ -261,8 +261,6 @@ class RemoteControlThread(QtCore.QThread):
                 self.ms_game.tcp_send("> ")
             else:
                 self.transfer.emit(data)
-                #  self.emit(QtCore.SIGNAL("output(QString)"),
-                #            data)
                 self.ms_game.tcp_send("> ")
 
             if self.ms_game.game_status == 1:
