@@ -5,7 +5,14 @@ Email : duguyue100@gmail.com
 """
 
 from os.path import join
-from PyQt4 import QtGui, QtCore
+try:
+    from PyQt4 import QtGui, QtCore
+    from PyQt4.QCore import QWidget, QLabel, QGridLayout, QHBoxLayout
+    from PyQt4.QCore import QPushButton, QLCDNumber
+except ImportError:
+    from PyQt5 import QtGui, QtCore
+    from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout, QHBoxLayout
+    from PyQt5.QtWidgets import QPushButton, QLCDNumber
 
 import minesweeper
 
@@ -27,7 +34,7 @@ LOSE_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "lose.png")
 CONTINUE_PATH = join(minesweeper.PACKAGE_IMGS_PATH, "continue.png")
 
 
-class ControlWidget(QtGui.QWidget):
+class ControlWidget(QWidget):
     """Control widget for showing state of the game."""
 
     def __init__(self):
@@ -37,16 +44,16 @@ class ControlWidget(QtGui.QWidget):
         self.init_ui()
 
     def init_ui(self):
-        """setup control widget UI."""
-        self.control_layout = QtGui.QHBoxLayout()
+        """Setup control widget UI."""
+        self.control_layout = QHBoxLayout()
         self.setLayout(self.control_layout)
-        self.reset_button = QtGui.QPushButton()
+        self.reset_button = QPushButton()
         self.reset_button.setFixedSize(40, 40)
         self.reset_button.setIcon(QtGui.QIcon(WIN_PATH))
-        self.game_timer = QtGui.QLCDNumber()
+        self.game_timer = QLCDNumber()
         self.game_timer.setStyleSheet("QLCDNumber {color: red;}")
         self.game_timer.setFixedWidth(100)
-        self.move_counter = QtGui.QLCDNumber()
+        self.move_counter = QLCDNumber()
         self.move_counter.setStyleSheet("QLCDNumber {color: red;}")
         self.move_counter.setFixedWidth(100)
 
@@ -55,7 +62,7 @@ class ControlWidget(QtGui.QWidget):
         self.control_layout.addWidget(self.move_counter)
 
 
-class GameWidget(QtGui.QWidget):
+class GameWidget(QWidget):
     """Setup Game Interface."""
 
     def __init__(self, ms_game, ctrl_wg):
@@ -86,7 +93,7 @@ class GameWidget(QtGui.QWidget):
         grid_height : int
             the height of the grid
         """
-        self.grid_layout = QtGui.QGridLayout()
+        self.grid_layout = QGridLayout()
         self.setLayout(self.grid_layout)
         self.grid_layout.setSpacing(1)
         self.grid_wgs = {}
@@ -108,7 +115,7 @@ class GameWidget(QtGui.QWidget):
         self.timer.start(1000)
 
     def update_grid(self):
-        """update grid according to info map."""
+        """Update grid according to info map."""
         info_map = self.ms_game.get_info_map()
         for i in xrange(self.ms_game.board_height):
             for j in xrange(self.ms_game.board_width):
@@ -124,7 +131,7 @@ class GameWidget(QtGui.QWidget):
             self.timer.stop()
 
 
-class FieldWidget(QtGui.QLabel):
+class FieldWidget(QLabel):
     """A customized Field Widget."""
 
     def __init__(self, field_width=25, field_height=25):
@@ -137,7 +144,7 @@ class FieldWidget(QtGui.QLabel):
         self.init_ui()
 
     def init_ui(self):
-        """init the ui."""
+        """Init the ui."""
         self.id = 11
         self.setFixedSize(self.field_width, self.field_height)
         self.setPixmap(QtGui.QPixmap(EMPTY_PATH).scaled(
@@ -217,6 +224,8 @@ class FieldWidget(QtGui.QLabel):
 class RemoteControlThread(QtCore.QThread):
     """Thread that covers remote control."""
 
+    transfer = QtCore.pyqtSignal("QString")
+
     def __init__(self):
         """Init function of the thread."""
         super(RemoteControlThread, self).__init__()
@@ -224,12 +233,12 @@ class RemoteControlThread(QtCore.QThread):
         self.exiting = False
 
     def __del__(self):
-        """destroy the thread."""
+        """Destroy the thread."""
         self.exiting = True
         self.wait()
 
     def control_start(self, ms_game):
-        """start thread control."""
+        """Start thread control."""
         self.ms_game = ms_game
         self.start()
 
@@ -251,8 +260,9 @@ class RemoteControlThread(QtCore.QThread):
             elif data == "":
                 self.ms_game.tcp_send("> ")
             else:
-                self.emit(QtCore.SIGNAL("output(QString)"),
-                          data)
+                self.transfer.emit(data)
+                #  self.emit(QtCore.SIGNAL("output(QString)"),
+                #            data)
                 self.ms_game.tcp_send("> ")
 
             if self.ms_game.game_status == 1:

@@ -7,7 +7,13 @@ Email : duguyue100@gmail.com
 
 from __future__ import print_function
 import argparse
-from PyQt4 import QtGui, QtCore
+
+try:
+    from PyQt4 import QtGui, QtCore
+    from PyQt4.QCore import QWidget, QApplication, QGridLayout
+except ImportError:
+    from PyQt5 import QtCore
+    from PyQt5.QtWidgets import QWidget, QApplication, QGridLayout
 
 from minesweeper import MSGame, gui
 
@@ -33,13 +39,12 @@ def ms_game_main(board_width, board_height, num_mines, port, ip_add):
     ms_game = MSGame(board_width, board_height, num_mines,
                      port=port, ip_add=ip_add)
 
-    ms_app = QtGui.QApplication([])
+    ms_app = QApplication([])
 
-    # define window and set layout
-    ms_window = QtGui.QWidget()
+    ms_window = QWidget()
     ms_window.setAutoFillBackground(True)
     ms_window.setWindowTitle("Mine Sweeper")
-    ms_layout = QtGui.QGridLayout()
+    ms_layout = QGridLayout()
     ms_window.setLayout(ms_layout)
 
     fun_wg = gui.ControlWidget()
@@ -47,13 +52,12 @@ def ms_game_main(board_width, board_height, num_mines, port, ip_add):
     remote_thread = gui.RemoteControlThread()
 
     def update_grid_remote(move_msg):
-        """update grid from remote control."""
+        """Update grid from remote control."""
         if grid_wg.ms_game.game_status == 2:
             grid_wg.ms_game.play_move_msg(str(move_msg))
             grid_wg.update_grid()
 
-    ms_window.connect(remote_thread, QtCore.SIGNAL("output(QString)"),
-                      update_grid_remote)
+    remote_thread.transfer.connect(update_grid_remote)
 
     def reset_button_state():
         """Reset button state."""
@@ -68,6 +72,7 @@ def ms_game_main(board_width, board_height, num_mines, port, ip_add):
 
     ms_window.show()
     ms_app.exec_()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Mine Sweeper Minesweeper \
