@@ -126,6 +126,7 @@ class GameWidget(QWidget):
             self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(CONTINUE_PATH))
         elif self.ms_game.game_status == 1:
             self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(WIN_PATH))
+            self.timer.stop()
         elif self.ms_game.game_status == 0:
             self.ctrl_wg.reset_button.setIcon(QtGui.QIcon(LOSE_PATH))
             self.timer.stop()
@@ -269,3 +270,55 @@ class RemoteControlThread(QtCore.QThread):
             elif self.ms_game.game_status == 0:
                 self.ms_game.tcp_send("[MESSAGE] YOU LOSE!\n")
                 self.ms_game.tcp_close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
